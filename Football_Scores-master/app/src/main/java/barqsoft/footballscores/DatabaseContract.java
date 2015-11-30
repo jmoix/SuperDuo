@@ -9,10 +9,16 @@ import android.provider.BaseColumns;
  */
 public class DatabaseContract
 {
-    public static final String SCORES_TABLE = "scores_table";
-    public static final class scores_table implements BaseColumns
-    {
+    //Moved static data to top of file and place scores_table table name inside of scores table object
+    //URI data
+    public static final String CONTENT_AUTHORITY = "barqsoft.footballscores";
+    public static final String PATH = "scores";
+    public static Uri BASE_CONTENT_URI = Uri.parse("content://"+CONTENT_AUTHORITY);
+
+    public static final class scores_table implements BaseColumns {
+
         //Table data
+        public static final String TABLE_NAME = "scores_table";
         public static final String LEAGUE_COL = "league";
         public static final String DATE_COL = "date";
         public static final String TIME_COL = "time";
@@ -32,21 +38,16 @@ public class DatabaseContract
         public static final String CONTENT_ITEM_TYPE =
                 ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH;
 
-        public static Uri buildScoreWithLeague()
-        {
+        public static Uri buildScoreWithLeague() {
             return BASE_CONTENT_URI.buildUpon().appendPath("league").build();
         }
-        public static Uri buildScoreWithId()
-        {
+        public static Uri buildScoreWithId() {
             return BASE_CONTENT_URI.buildUpon().appendPath("id").build();
         }
-        public static Uri buildScoreWithDate()
-        {
+        public static Uri buildScoreWithDate() {
             return BASE_CONTENT_URI.buildUpon().appendPath("date").build();
         }
+
     }
-    //URI data
-    public static final String CONTENT_AUTHORITY = "barqsoft.footballscores";
-    public static final String PATH = "scores";
-    public static Uri BASE_CONTENT_URI = Uri.parse("content://"+CONTENT_AUTHORITY);
+
 }

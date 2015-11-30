@@ -50,8 +50,7 @@ public class AboutActivity extends ActionBarActivity {
      */
     public static class PlaceholderFragment extends Fragment {
 
-        public PlaceholderFragment() {
-        }
+        //Got rid of empty constructor
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
