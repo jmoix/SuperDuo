@@ -1,15 +1,24 @@
 package barqsoft.footballscores;
 
+import android.util.Log;
+
 /**
  * Created by yehya khaled on 3/3/2015.
  */
 public class Utilies
 {
-    public static final int SERIE_A = 357;
-    public static final int PREMIER_LEGAUE = 354;
-    public static final int CHAMPIONS_LEAGUE = 362;
-    public static final int PRIMERA_DIVISION = 358;
-    public static final int BUNDESLIGA = 351;
+    public static final int BUNDESLIGA1 = 394;
+    public static final int BUNDESLIGA2 = 395;
+    public static final int BUNDESLIGA3 = 403;
+    public static final int LIGUE1 = 396;
+    public static final int LIGUE2 = 397;
+    public static final int PREMIER_LEGAUE = 398;
+    public static final int PRIMERA_DIVISION = 399;
+    public static final int SEGUNDA_DIVISION = 400;
+    public static final int SERIE_A = 401;
+    public static final int PRIMEIRA_LIGA = 402;
+    public static final int EREDIVISIE = 404;
+    public static final int CHAMPIONS_LEAGUE = 405;
 
     public static String getLeague(int league_num) {
         switch (league_num) {
@@ -17,7 +26,14 @@ public class Utilies
             case PREMIER_LEGAUE : return "Premier League";
             case CHAMPIONS_LEAGUE : return "UEFA Champions League";
             case PRIMERA_DIVISION : return "Primera Division";
-            case BUNDESLIGA : return "Bundesliga";
+            case BUNDESLIGA1 : return "Bundesliga";
+            case BUNDESLIGA2 : return "Bundesliga";
+            case BUNDESLIGA3 : return "Bundesliga";
+            case LIGUE1 : return "Ligue";
+            case LIGUE2 : return "Ligue";
+            case SEGUNDA_DIVISION : return "Segunda Division";
+            case PRIMEIRA_LIGA : return "Primeira Liga";
+            case EREDIVISIE : return "Eredivisie";
             default: return "Not known League Please report";
         }
     }
