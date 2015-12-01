@@ -37,10 +37,7 @@ public class AddBook extends Fragment implements LoaderManager.LoaderCallbacks<C
     private String mScanFormat = "Format:";
     private String mScanContents = "Contents:";
 
-
-
-    public AddBook(){
-    }
+    //got rid of empty constructor
 
     @Override
     public void onSaveInstanceState(Bundle outState) {

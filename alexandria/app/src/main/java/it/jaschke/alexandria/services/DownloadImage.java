@@ -8,6 +8,8 @@ import android.widget.ImageView;
 
 import java.io.InputStream;
 
+import it.jaschke.alexandria.Utilities;
+
 /**
  * Created by saj on 11/01/15.
  */

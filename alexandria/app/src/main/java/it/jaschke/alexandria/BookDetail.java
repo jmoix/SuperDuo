@@ -32,8 +32,7 @@ public class BookDetail extends Fragment implements LoaderManager.LoaderCallback
     private String bookTitle;
     private ShareActionProvider shareActionProvider;
 
-    public BookDetail(){
-    }
+    //got rid of empty constructor
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

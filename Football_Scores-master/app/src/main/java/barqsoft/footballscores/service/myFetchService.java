@@ -28,25 +28,25 @@ import barqsoft.footballscores.R;
 /**
  * Created by yehya khaled on 3/2/2015.
  */
-public class myFetchService extends IntentService
-{
+public class myFetchService extends IntentService {
+
     public static final String LOG_TAG = "myFetchService";
+
     public myFetchService()
     {
         super("myFetchService");
     }
 
     @Override
-    protected void onHandleIntent(Intent intent)
-    {
+    protected void onHandleIntent(Intent intent) {
         getData("n2");
         getData("p2");
 
         return;
     }
 
-    private void getData (String timeFrame)
-    {
+    private void getData (String timeFrame) {
+
         //Creating fetch URL
         final String BASE_URL = "http://api.football-data.org/alpha/fixtures"; //Base URL
         final String QUERY_TIME_FRAME = "timeFrame"; //Time Frame parameter to determine days
@@ -87,12 +87,9 @@ public class myFetchService extends IntentService
                 return;
             }
             JSON_data = buffer.toString();
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             Log.e(LOG_TAG,"Exception here" + e.getMessage());
-        }
-        finally {
+        } finally {
             if(m_connection != null)
             {
                 m_connection.disconnect();
@@ -125,14 +122,12 @@ public class myFetchService extends IntentService
                 //Could not Connect
                 Log.d(LOG_TAG, "Could not connect to server.");
             }
-        }
-        catch(Exception e)
-        {
+        } catch(Exception e) {
             Log.e(LOG_TAG,e.getMessage());
         }
     }
-    private void processJSONdata (String JSONdata,Context mContext, boolean isReal)
-    {
+
+    private void processJSONdata (String JSONdata,Context mContext, boolean isReal) {
         //JSON data
         // This set of league codes is for the 2015/2016 season. In fall of 2016, they will need to
         // be updated. Feel free to use the codes
@@ -181,8 +176,7 @@ public class myFetchService extends IntentService
 
             //ContentValues to be inserted
             Vector<ContentValues> values = new Vector <ContentValues> (matches.length());
-            for(int i = 0;i < matches.length();i++)
-            {
+            for(int i = 0;i < matches.length();i++) {
 
                 JSONObject match_data = matches.getJSONObject(i);
                 League = match_data.getJSONObject(LINKS).getJSONObject(SOCCER_SEASON).
@@ -196,8 +190,7 @@ public class myFetchService extends IntentService
                         League.equals(SERIE_A)             ||
                         League.equals(BUNDESLIGA1)         ||
                         League.equals(BUNDESLIGA2)         ||
-                        League.equals(PRIMERA_DIVISION)     )
-                {
+                        League.equals(PRIMERA_DIVISION)     ) {
                     match_id = match_data.getJSONObject(LINKS).getJSONObject(SELF).
                             getString("href");
                     match_id = match_id.replace(MATCH_LINK, "");
@@ -226,8 +219,7 @@ public class myFetchService extends IntentService
                             mDate=mformat.format(fragmentdate);
                         }
                     }
-                    catch (Exception e)
-                    {
+                    catch (Exception e) {
                         Log.d(LOG_TAG, "error here!");
                         Log.e(LOG_TAG,e.getMessage());
                     }
@@ -267,8 +259,7 @@ public class myFetchService extends IntentService
 
             //Log.v(LOG_TAG,"Succesfully Inserted : " + String.valueOf(inserted_data));
         }
-        catch (JSONException e)
-        {
+        catch (JSONException e) {
             Log.e(LOG_TAG,e.getMessage());
         }
 
