@@ -1,6 +1,11 @@
 package barqsoft.footballscores;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.os.Handler;
 import android.util.Log;
+import android.widget.Toast;
 
 /**
  * Created by yehya khaled on 3/3/2015.
@@ -82,4 +87,24 @@ public class Utilies
             default: return R.drawable.soccerball;
         }
     }
+
+    public static Boolean checkNetworkAvailable(final Context context){
+
+        ConnectivityManager cm = (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        Boolean networkIsActive = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
+        if(!networkIsActive){
+            Handler handler = new Handler(context.getMainLooper());
+            Runnable runnable = new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(context, context.getString(R.string.network_error_toast), Toast.LENGTH_SHORT).show();
+                }
+            };
+            handler.post(runnable);
+        }
+        return  activeNetwork != null && activeNetwork.isConnectedOrConnecting();
+
+    }
+
 }

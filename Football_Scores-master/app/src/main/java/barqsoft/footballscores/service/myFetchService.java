@@ -24,6 +24,7 @@ import java.util.Vector;
 
 import barqsoft.footballscores.DatabaseContract;
 import barqsoft.footballscores.R;
+import barqsoft.footballscores.Utilies;
 
 /**
  * Created by yehya khaled on 3/2/2015.
@@ -47,83 +48,80 @@ public class myFetchService extends IntentService {
 
     private void getData (String timeFrame) {
 
-        //Creating fetch URL
-        final String BASE_URL = "http://api.football-data.org/alpha/fixtures"; //Base URL
-        final String QUERY_TIME_FRAME = "timeFrame"; //Time Frame parameter to determine days
-        //final String QUERY_MATCH_DAY = "matchday";
+        if(Utilies.checkNetworkAvailable(getApplicationContext())) {
+            //Creating fetch URL
+            final String BASE_URL = "http://api.football-data.org/alpha/fixtures"; //Base URL
+            final String QUERY_TIME_FRAME = "timeFrame"; //Time Frame parameter to determine days
+            //final String QUERY_MATCH_DAY = "matchday";
 
-        Uri fetch_build = Uri.parse(BASE_URL).buildUpon().
-                appendQueryParameter(QUERY_TIME_FRAME, timeFrame).build();
-        //Log.v(LOG_TAG, "The url we are looking at is: "+fetch_build.toString()); //log spam
-        HttpURLConnection m_connection = null;
-        BufferedReader reader = null;
-        String JSON_data = null;
-        //Opening Connection
-        try {
-            URL fetch = new URL(fetch_build.toString());
-            m_connection = (HttpURLConnection) fetch.openConnection();
-            m_connection.setRequestMethod("GET");
-            m_connection.addRequestProperty("X-Auth-Token",getString(R.string.api_key));
-            m_connection.connect();
+            Uri fetch_build = Uri.parse(BASE_URL).buildUpon().
+                    appendQueryParameter(QUERY_TIME_FRAME, timeFrame).build();
+            //Log.v(LOG_TAG, "The url we are looking at is: "+fetch_build.toString()); //log spam
+            HttpURLConnection m_connection = null;
+            BufferedReader reader = null;
+            String JSON_data = null;
+            //Opening Connection
+            try {
+                URL fetch = new URL(fetch_build.toString());
+                m_connection = (HttpURLConnection) fetch.openConnection();
+                m_connection.setRequestMethod("GET");
+                m_connection.addRequestProperty("X-Auth-Token", getString(R.string.api_key));
+                m_connection.connect();
 
-            // Read the input stream into a String
-            InputStream inputStream = m_connection.getInputStream();
-            StringBuffer buffer = new StringBuffer();
-            if (inputStream == null) {
-                // Nothing to do.
-                return;
-            }
-            reader = new BufferedReader(new InputStreamReader(inputStream));
-
-            String line;
-            while ((line = reader.readLine()) != null) {
-                // Since it's JSON, adding a newline isn't necessary (it won't affect parsing)
-                // But it does make debugging a *lot* easier if you print out the completed
-                // buffer for debugging.
-                buffer.append(line + "\n");
-            }
-            if (buffer.length() == 0) {
-                // Stream was empty.  No point in parsing.
-                return;
-            }
-            JSON_data = buffer.toString();
-        } catch (Exception e) {
-            Log.e(LOG_TAG,"Exception here" + e.getMessage());
-        } finally {
-            if(m_connection != null)
-            {
-                m_connection.disconnect();
-            }
-            if (reader != null)
-            {
-                try {
-                    reader.close();
-                }
-                catch (IOException e)
-                {
-                    Log.e(LOG_TAG,"Error Closing Stream");
-                }
-            }
-        }
-        try {
-            if (JSON_data != null) {
-                //This bit is to check if the data contains any matches. If not, we call processJson on the dummy data
-                JSONArray matches = new JSONObject(JSON_data).getJSONArray("fixtures");
-                if (matches.length() == 0) {
-                    //if there is no data, call the function on dummy data
-                    //this is expected behavior during the off season.
-                    processJSONdata(getString(R.string.dummy_data), getApplicationContext(), false);
+                // Read the input stream into a String
+                InputStream inputStream = m_connection.getInputStream();
+                StringBuffer buffer = new StringBuffer();
+                if (inputStream == null) {
+                    // Nothing to do.
                     return;
                 }
+                reader = new BufferedReader(new InputStreamReader(inputStream));
 
-
-                processJSONdata(JSON_data, getApplicationContext(), true);
-            } else {
-                //Could not Connect
-                Log.d(LOG_TAG, "Could not connect to server.");
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    // Since it's JSON, adding a newline isn't necessary (it won't affect parsing)
+                    // But it does make debugging a *lot* easier if you print out the completed
+                    // buffer for debugging.
+                    buffer.append(line + "\n");
+                }
+                if (buffer.length() == 0) {
+                    // Stream was empty.  No point in parsing.
+                    return;
+                }
+                JSON_data = buffer.toString();
+            } catch (Exception e) {
+                Log.e(LOG_TAG, "Exception here" + e.getMessage());
+            } finally {
+                if (m_connection != null) {
+                    m_connection.disconnect();
+                }
+                if (reader != null) {
+                    try {
+                        reader.close();
+                    } catch (IOException e) {
+                        Log.e(LOG_TAG, "Error Closing Stream");
+                    }
+                }
             }
-        } catch(Exception e) {
-            Log.e(LOG_TAG,e.getMessage());
+            try {
+                if (JSON_data != null) {
+                    //This bit is to check if the data contains any matches. If not, we call processJson on the dummy data
+                    JSONArray matches = new JSONObject(JSON_data).getJSONArray("fixtures");
+                    if (matches.length() == 0) {
+                        //if there is no data, call the function on dummy data
+                        //this is expected behavior during the off season.
+                        processJSONdata(getString(R.string.dummy_data), getApplicationContext(), false);
+                        return;
+                    }
+
+                    processJSONdata(JSON_data, getApplicationContext(), true);
+                } else {
+                    //Could not Connect
+                    Log.d(LOG_TAG, "Could not connect to server.");
+                }
+            } catch (Exception e) {
+                Log.e(LOG_TAG, e.getMessage());
+            }
         }
     }
 
