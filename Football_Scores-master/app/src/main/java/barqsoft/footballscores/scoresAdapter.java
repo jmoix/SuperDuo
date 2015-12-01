@@ -27,8 +27,7 @@ public class scoresAdapter extends CursorAdapter
     public double detail_match_id = 0;
     private String FOOTBALL_SCORES_HASHTAG = "#Football_Scores";
 
-    public scoresAdapter(Context context,Cursor cursor,int flags)
-    {
+    public scoresAdapter(Context context,Cursor cursor,int flags) {
         super(context,cursor,flags);
     }
 
@@ -63,7 +62,7 @@ public class scoresAdapter extends CursorAdapter
         ViewGroup container = (ViewGroup) view.findViewById(R.id.details_fragment_container);
         if(mHolder.match_id == detail_match_id) {
             //Log.v(FetchScoreTask.LOG_TAG,"will insert extraView");
-
+            mHolder.touch.setVisibility(View.GONE);
             container.addView(v, 0, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT
                     , ViewGroup.LayoutParams.MATCH_PARENT));
             TextView match_day = (TextView) v.findViewById(R.id.matchday_textview);
@@ -82,6 +81,7 @@ public class scoresAdapter extends CursorAdapter
                 }
             });
         } else {
+            mHolder.touch.setVisibility(View.VISIBLE);
             container.removeAllViews();
         }
 
