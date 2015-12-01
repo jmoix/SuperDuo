@@ -23,6 +23,7 @@
     <string name="about">About</string>
     <string name="title_activity_about">AboutActivity</string>
     <string name="network_error_toast">Please connect to the internet to use network features.</string>
+    <string name="scores_list_empty">There were no games today</string>
     <string name="about_text">
         This Application gets Football Matches Score for the Premier League, Seria A, Bundesliga, Primera Division,
         Ligue, Segunda Division, Primeira Liga, Eredivisie, and the Uefa Champions League.

@@ -43,6 +43,7 @@ public class MainScreenFragment extends Fragment implements LoaderManager.Loader
         final ListView score_list = (ListView) rootView.findViewById(R.id.scores_list);
         mAdapter = new scoresAdapter(getActivity(),null,0);
         score_list.setAdapter(mAdapter);
+        score_list.setEmptyView(rootView.findViewById(R.id.scores_list_empty));
         getLoaderManager().initLoader(SCORES_LOADER,null,this);
         mAdapter.detail_match_id = MainActivity.selected_match_id;
         score_list.setOnItemClickListener(new AdapterView.OnItemClickListener()
