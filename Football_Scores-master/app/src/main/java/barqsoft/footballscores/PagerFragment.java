@@ -34,11 +34,39 @@ public class PagerFragment extends Fragment
             Date fragmentdate = new Date(System.currentTimeMillis()+((i-2)*86400000));
             SimpleDateFormat mformat = new SimpleDateFormat("yyyy-MM-dd");
             viewFragments[i] = new MainScreenFragment();
+            Bundle args = new Bundle();
+            args.putString("day", getDayName(getActivity(),System.currentTimeMillis()+((i-2)*86400000)));
+            viewFragments[i].setArguments(args);
             viewFragments[i].setFragmentDate(mformat.format(fragmentdate));
         }
         mPagerHandler.setAdapter(mPagerAdapter);
         mPagerHandler.setCurrentItem(MainActivity.current_fragment);
         return rootView;
+    }
+
+    public String getDayName(Context context, long dateInMillis) {
+        // If the date is today, return the localized version of "Today" instead of the actual
+        // day name.
+
+        Time t = new Time();
+        t.setToNow();
+        int julianDay = Time.getJulianDay(dateInMillis, t.gmtoff);
+        int currentJulianDay = Time.getJulianDay(System.currentTimeMillis(), t.gmtoff);
+
+        if (julianDay == currentJulianDay) {
+            return context.getString(R.string.today);
+        } else if ( julianDay == currentJulianDay +1 ) {
+            return context.getString(R.string.tomorrow);
+        } else if ( julianDay == currentJulianDay -1) {
+            return context.getString(R.string.yesterday);
+        } else {
+            Time time = new Time();
+            time.setToNow();
+            // Otherwise, the format is just the day of the week (e.g "Wednesday".
+            SimpleDateFormat dayFormat = new SimpleDateFormat("EEEE");
+            return dayFormat.format(dateInMillis);
+        }
+
     }
 
     private class myPageAdapter extends FragmentStatePagerAdapter {
@@ -65,29 +93,6 @@ public class PagerFragment extends Fragment
             return getDayName(getActivity(),System.currentTimeMillis()+((position-2)*86400000));
         }
 
-        public String getDayName(Context context, long dateInMillis) {
-            // If the date is today, return the localized version of "Today" instead of the actual
-            // day name.
 
-            Time t = new Time();
-            t.setToNow();
-            int julianDay = Time.getJulianDay(dateInMillis, t.gmtoff);
-            int currentJulianDay = Time.getJulianDay(System.currentTimeMillis(), t.gmtoff);
-
-            if (julianDay == currentJulianDay) {
-                return context.getString(R.string.today);
-            } else if ( julianDay == currentJulianDay +1 ) {
-                return context.getString(R.string.tomorrow);
-            } else if ( julianDay == currentJulianDay -1) {
-                return context.getString(R.string.yesterday);
-            } else {
-                Time time = new Time();
-                time.setToNow();
-                // Otherwise, the format is just the day of the week (e.g "Wednesday".
-                SimpleDateFormat dayFormat = new SimpleDateFormat("EEEE");
-                return dayFormat.format(dateInMillis);
-            }
-
-        }
     }
 }

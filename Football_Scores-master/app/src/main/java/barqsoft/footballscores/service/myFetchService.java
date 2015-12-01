@@ -33,8 +33,7 @@ public class myFetchService extends IntentService {
 
     public static final String LOG_TAG = "myFetchService";
 
-    public myFetchService()
-    {
+    public myFetchService() {
         super("myFetchService");
     }
 

@@ -7,11 +7,13 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import barqsoft.footballscores.service.myFetchService;
 
@@ -30,8 +32,7 @@ public class MainScreenFragment extends Fragment implements LoaderManager.Loader
         getActivity().startService(service_start);
     }
 
-    public void setFragmentDate(String date)
-    {
+    public void setFragmentDate(String date) {
         fragmentdate[0] = date;
     }
 
@@ -43,6 +44,19 @@ public class MainScreenFragment extends Fragment implements LoaderManager.Loader
         final ListView score_list = (ListView) rootView.findViewById(R.id.scores_list);
         mAdapter = new scoresAdapter(getActivity(),null,0);
         score_list.setAdapter(mAdapter);
+
+        switch (getArguments().getString("day")){
+            case "Today":
+                ((TextView)rootView.findViewById(R.id.empty_text)).setText(getString(R.string.no_data_today));
+                break;
+            case "Tomorrow":
+                ((TextView)rootView.findViewById(R.id.empty_text)).setText(getString(R.string.no_data_tomorrow));
+                break;
+            case "Yesterday":
+                ((TextView)rootView.findViewById(R.id.empty_text)).setText(getString(R.string.no_data_yesterday));
+                break;
+        }
+
         score_list.setEmptyView(rootView.findViewById(R.id.scores_list_empty));
         getLoaderManager().initLoader(SCORES_LOADER,null,this);
         mAdapter.detail_match_id = MainActivity.selected_match_id;
