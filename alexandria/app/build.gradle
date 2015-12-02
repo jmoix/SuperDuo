@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 23
-    buildToolsVersion "21.1.2"
+    buildToolsVersion "23.0.1"
 
     defaultConfig {
         applicationId "it.jaschke.alexandria"
@@ -37,5 +37,5 @@ android {
 
 dependencies {
     compile 'com.android.support:appcompat-v7:23.1.1'
-
+    compile 'com.google.android.gms:play-services:8.3.0'
 }
