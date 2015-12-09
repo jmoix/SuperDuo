@@ -85,7 +85,8 @@
     <string name="no_data_today">There were no games played today.</string>
     <string name="no_data_tomorrow">There are no games being played tomorrow.</string>
     <string name="no_data_yesterday">There were no games played yesterday.</string>
-    <string name="title_widget_football">Football Scores</string>
+    <string name="title_widget_football">Football Scores Today</string>
+    <string name="test_text">test</string>
     <string name="about_text">
         This Application gets Football Matches Score for the Premier League, Seria A, Bundesliga, Primera Division,
         Ligue, Segunda Division, Primeira Liga, Eredivisie, and the Uefa Champions League.
