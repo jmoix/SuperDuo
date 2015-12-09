@@ -44,16 +44,34 @@ public class scoresAdapter extends CursorAdapter
     public void bindView(View view, final Context context, Cursor cursor) {
 
         final ViewHolder mHolder = (ViewHolder) view.getTag();
-        mHolder.home_name.setText(cursor.getString(COL_HOME));
-        mHolder.away_name.setText(cursor.getString(COL_AWAY));
-        mHolder.date.setText(cursor.getString(COL_MATCHTIME));
-        mHolder.score.setText(Utilies.getScores(cursor.getInt(COL_HOME_GOALS),cursor.getInt(COL_AWAY_GOALS)));
+
+        String homeTeam = cursor.getString(COL_HOME);
+        String awayTeam = cursor.getString(COL_AWAY);
+        String homeScore = Integer.toString(cursor.getInt(COL_HOME_GOALS));
+        String awayScore = Integer.toString(cursor.getInt(COL_AWAY_GOALS));
+        String time = cursor.getString(COL_MATCHTIME);
+        String lge = Utilies.getLeague(cursor.getInt(COL_LEAGUE), context);
+        String matchDay = Utilies.getMatchDay(cursor.getInt(COL_MATCHDAY),
+                cursor.getInt(COL_LEAGUE), context);
+
+        //view.setContentDescription(lge + " league game at " + time + " . "  + matchDay + ". " + homeTeam + " at home, versus " + awayTeam + ", with a score of " + homeScore + " to " + awayScore + ". Double tap to expand.");
+        view.setContentDescription(context.getString(R.string.cd_league, lge) +
+                context.getString(R.string.cd_time, time) +
+                context.getString(R.string.cd_hometeam, homeTeam) + " " + awayTeam +
+                context.getString(R.string.cd_homescore, homeScore) + " " + awayScore +
+                context.getString(R.string.cd_expand));
+
+        mHolder.home_name.setText(homeTeam);
+        mHolder.away_name.setText(awayTeam);
+        mHolder.date.setText(time);
+        mHolder.score.setText(Utilies.getScores(Integer.parseInt(homeScore),Integer.parseInt(awayScore)));
         mHolder.match_id = cursor.getDouble(COL_ID);
         mHolder.home_crest.setImageResource(Utilies.getTeamCrestByTeamName(
                 cursor.getString(COL_HOME)));
         mHolder.away_crest.setImageResource(Utilies.getTeamCrestByTeamName(
                 cursor.getString(COL_AWAY)
         ));
+
         //Log.v(FetchScoreTask.LOG_TAG,mHolder.home_name.getText() + " Vs. " + mHolder.away_name.getText() +" id " + String.valueOf(mHolder.match_id));
         //Log.v(FetchScoreTask.LOG_TAG,String.valueOf(detail_match_id));
         LayoutInflater vi = (LayoutInflater) context.getApplicationContext()
@@ -66,10 +84,9 @@ public class scoresAdapter extends CursorAdapter
             container.addView(v, 0, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT
                     , ViewGroup.LayoutParams.MATCH_PARENT));
             TextView match_day = (TextView) v.findViewById(R.id.matchday_textview);
-            match_day.setText(Utilies.getMatchDay(cursor.getInt(COL_MATCHDAY),
-                    cursor.getInt(COL_LEAGUE)));
+            match_day.setText(matchDay);
             TextView league = (TextView) v.findViewById(R.id.league_textview);
-            league.setText(context.getString(R.string.league,Utilies.getLeague(cursor.getInt(COL_LEAGUE))));
+            league.setText(context.getString(R.string.league,lge));
             Button share_button = (Button) v.findViewById(R.id.share_button);
             share_button.setOnClickListener(new View.OnClickListener() {
                 @Override

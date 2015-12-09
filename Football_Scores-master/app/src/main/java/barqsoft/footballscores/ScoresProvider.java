@@ -27,14 +27,18 @@ public class ScoresProvider extends ContentProvider
     private static final String SCORES_BY_ID =
             DatabaseContract.scores_table.MATCH_ID + " = ?";
 
+    public static final String LEAGUE = "league";
+    public static final String ID = "id";
+    public static final String DATE = "date";
+
 
     static UriMatcher buildUriMatcher() {
         final UriMatcher matcher = new UriMatcher(UriMatcher.NO_MATCH);
         final String authority = DatabaseContract.BASE_CONTENT_URI.toString();
         matcher.addURI(authority, null , MATCHES);
-        matcher.addURI(authority, "league" , MATCHES_WITH_LEAGUE);
-        matcher.addURI(authority, "id" , MATCHES_WITH_ID);
-        matcher.addURI(authority, "date" , MATCHES_WITH_DATE);
+        matcher.addURI(authority, LEAGUE , MATCHES_WITH_LEAGUE);
+        matcher.addURI(authority, ID , MATCHES_WITH_ID);
+        matcher.addURI(authority, DATE , MATCHES_WITH_DATE);
         return matcher;
     }
 

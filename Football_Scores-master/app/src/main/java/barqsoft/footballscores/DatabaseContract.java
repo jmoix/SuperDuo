@@ -39,13 +39,13 @@ public class DatabaseContract
                 ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH;
 
         public static Uri buildScoreWithLeague() {
-            return BASE_CONTENT_URI.buildUpon().appendPath("league").build();
+            return BASE_CONTENT_URI.buildUpon().appendPath(ScoresProvider.LEAGUE).build();
         }
         public static Uri buildScoreWithId() {
-            return BASE_CONTENT_URI.buildUpon().appendPath("id").build();
+            return BASE_CONTENT_URI.buildUpon().appendPath(ScoresProvider.ID).build();
         }
         public static Uri buildScoreWithDate() {
-            return BASE_CONTENT_URI.buildUpon().appendPath("date").build();
+            return BASE_CONTENT_URI.buildUpon().appendPath(ScoresProvider.DATE).build();
         }
 
     }

@@ -26,6 +26,10 @@ public class MainScreenFragment extends Fragment implements LoaderManager.Loader
     public static final int SCORES_LOADER = 0;
     private String[] fragmentdate = new String[1];
     private int last_selected_item = -1;
+    private String emptyMessage;
+    View rootView;
+
+    public static final String DAY = "day";
 
     private void update_scores() {
         Intent service_start = new Intent(getActivity(), myFetchService.class);
@@ -40,22 +44,26 @@ public class MainScreenFragment extends Fragment implements LoaderManager.Loader
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              final Bundle savedInstanceState) {
         update_scores();
-        View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+        rootView = inflater.inflate(R.layout.fragment_main, container, false);
         final ListView score_list = (ListView) rootView.findViewById(R.id.scores_list);
         mAdapter = new scoresAdapter(getActivity(),null,0);
         score_list.setAdapter(mAdapter);
+        String day = getArguments().getString(DAY);
 
-        switch (getArguments().getString("day")){
-            case "Today":
-                ((TextView)rootView.findViewById(R.id.empty_text)).setText(getString(R.string.no_data_today));
-                break;
-            case "Tomorrow":
-                ((TextView)rootView.findViewById(R.id.empty_text)).setText(getString(R.string.no_data_tomorrow));
-                break;
-            case "Yesterday":
-                ((TextView)rootView.findViewById(R.id.empty_text)).setText(getString(R.string.no_data_yesterday));
-                break;
+        rootView.setContentDescription(getString(R.string.cd_mainfragment, day));
+        score_list.setContentDescription(getString(R.string.cd_scores_list, day));
+
+        if(day.equals(getString(R.string.today_label))){
+            emptyMessage = getString(R.string.no_data_today);
+        }else if(day.equals(getString(R.string.tomorrow_label))){
+            emptyMessage = getString(R.string.no_data_tomorrow);
+        }else if(day.equals(getString(R.string.yesterday_label))){
+            emptyMessage = getString(R.string.no_data_yesterday);
+        }else{
+            emptyMessage = getString(R.string.scores_list_empty);
         }
+
+        ((TextView)rootView.findViewById(R.id.empty_text)).setText(emptyMessage);
 
         score_list.setEmptyView(rootView.findViewById(R.id.scores_list_empty));
         getLoaderManager().initLoader(SCORES_LOADER,null,this);
@@ -98,6 +106,8 @@ public class MainScreenFragment extends Fragment implements LoaderManager.Loader
             i++;
             cursor.moveToNext();
         }
+
+        if(cursor == null || cursor.getCount() == 0) rootView.setContentDescription(emptyMessage);
         //Log.v(FetchScoreTask.LOG_TAG,"Loader query: " + String.valueOf(i));
         mAdapter.swapCursor(cursor);
         //mAdapter.notifyDataSetChanged();

@@ -30,12 +30,13 @@ public class PagerFragment extends Fragment
         View rootView = inflater.inflate(R.layout.pager_fragment, container, false);
         mPagerHandler = (ViewPager) rootView.findViewById(R.id.pager);
         mPagerAdapter = new myPageAdapter(getChildFragmentManager());
+        (rootView.findViewById(R.id.pager_header)).setContentDescription(null);
         for (int i = 0;i < NUM_PAGES;i++) {
             Date fragmentdate = new Date(System.currentTimeMillis()+((i-2)*86400000));
             SimpleDateFormat mformat = new SimpleDateFormat("yyyy-MM-dd");
             viewFragments[i] = new MainScreenFragment();
             Bundle args = new Bundle();
-            args.putString("day", getDayName(getActivity(),System.currentTimeMillis()+((i-2)*86400000)));
+            args.putString(MainScreenFragment.DAY, getDayName(getActivity(), System.currentTimeMillis() + ((i - 2) * 86400000)));
             viewFragments[i].setArguments(args);
             viewFragments[i].setFragmentDate(mformat.format(fragmentdate));
         }
@@ -54,11 +55,11 @@ public class PagerFragment extends Fragment
         int currentJulianDay = Time.getJulianDay(System.currentTimeMillis(), t.gmtoff);
 
         if (julianDay == currentJulianDay) {
-            return context.getString(R.string.today);
+            return context.getString(R.string.today_label);
         } else if ( julianDay == currentJulianDay +1 ) {
-            return context.getString(R.string.tomorrow);
+            return context.getString(R.string.tomorrow_label);
         } else if ( julianDay == currentJulianDay -1) {
-            return context.getString(R.string.yesterday);
+            return context.getString(R.string.yesterday_label);
         } else {
             Time time = new Time();
             time.setToNow();

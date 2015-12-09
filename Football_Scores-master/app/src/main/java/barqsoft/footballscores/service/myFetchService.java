@@ -39,8 +39,8 @@ public class myFetchService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        getData("n2");
-        getData("p2");
+        getData(getBaseContext().getString(R.string.time_key_next_2));
+        getData(getBaseContext().getString(R.string.time_key_previous_2));
 
         return;
     }
@@ -49,8 +49,8 @@ public class myFetchService extends IntentService {
 
         if(Utilies.checkNetworkAvailable(getApplicationContext())) {
             //Creating fetch URL
-            final String BASE_URL = "http://api.football-data.org/alpha/fixtures"; //Base URL
-            final String QUERY_TIME_FRAME = "timeFrame"; //Time Frame parameter to determine days
+            final String BASE_URL = getBaseContext().getString(R.string.api_url); //Base URL
+            final String QUERY_TIME_FRAME = getBaseContext().getString(R.string.time_header); //Time Frame parameter to determine days
             //final String QUERY_MATCH_DAY = "matchday";
 
             Uri fetch_build = Uri.parse(BASE_URL).buildUpon().
@@ -63,8 +63,8 @@ public class myFetchService extends IntentService {
             try {
                 URL fetch = new URL(fetch_build.toString());
                 m_connection = (HttpURLConnection) fetch.openConnection();
-                m_connection.setRequestMethod("GET");
-                m_connection.addRequestProperty("X-Auth-Token", getString(R.string.api_key));
+                m_connection.setRequestMethod(getBaseContext().getString(R.string.rm_get));
+                m_connection.addRequestProperty(getBaseContext().getString(R.string.api_key_header), getString(R.string.api_key));
                 m_connection.connect();
 
                 // Read the input stream into a String
@@ -105,7 +105,7 @@ public class myFetchService extends IntentService {
             try {
                 if (JSON_data != null) {
                     //This bit is to check if the data contains any matches. If not, we call processJson on the dummy data
-                    JSONArray matches = new JSONObject(JSON_data).getJSONArray("fixtures");
+                    JSONArray matches = new JSONObject(JSON_data).getJSONArray(getBaseContext().getString(R.string.fixtures_key));
                     if (matches.length() == 0) {
                         //if there is no data, call the function on dummy data
                         //this is expected behavior during the off season.
@@ -128,32 +128,32 @@ public class myFetchService extends IntentService {
         //JSON data
         // This set of league codes is for the 2015/2016 season. In fall of 2016, they will need to
         // be updated. Feel free to use the codes
-        final String BUNDESLIGA1 = "394";
-        final String BUNDESLIGA2 = "395";
-        final String LIGUE1 = "396";
-        final String LIGUE2 = "397";
-        final String PREMIER_LEAGUE = "398";
-        final String PRIMERA_DIVISION = "399";
-        final String SEGUNDA_DIVISION = "400";
-        final String SERIE_A = "401";
-        final String PRIMERA_LIGA = "402";
-        final String Bundesliga3 = "403";
-        final String EREDIVISIE = "404";
+        final String BUNDESLIGA1 = getBaseContext().getString(R.string.bundesliga1_key);
+        final String BUNDESLIGA2 = getBaseContext().getString(R.string.bundesliga2_key);
+        final String LIGUE1 = getBaseContext().getString(R.string.ligue1_key);
+        final String LIGUE2 = getBaseContext().getString(R.string.ligue2_key);
+        final String PREMIER_LEAGUE = getBaseContext().getString(R.string.premier_key);
+        final String PRIMERA_DIVISION = getBaseContext().getString(R.string.primera_div_key);
+        final String SEGUNDA_DIVISION = getBaseContext().getString(R.string.segunda_key);
+        final String SERIE_A = getBaseContext().getString(R.string.serie_a_key);
+        final String PRIMERA_LIGA = getBaseContext().getString(R.string.primera_liga_key);
+        final String BUNDESLIGA3 = getBaseContext().getString(R.string.bundesliga3_key);
+        final String EREDIVISIE = getBaseContext().getString(R.string.eredivisie_key);
 
 
-        final String SEASON_LINK = "http://api.football-data.org/alpha/soccerseasons/";
-        final String MATCH_LINK = "http://api.football-data.org/alpha/fixtures/";
-        final String FIXTURES = "fixtures";
-        final String LINKS = "_links";
-        final String SOCCER_SEASON = "soccerseason";
-        final String SELF = "self";
-        final String MATCH_DATE = "date";
-        final String HOME_TEAM = "homeTeamName";
-        final String AWAY_TEAM = "awayTeamName";
-        final String RESULT = "result";
-        final String HOME_GOALS = "goalsHomeTeam";
-        final String AWAY_GOALS = "goalsAwayTeam";
-        final String MATCH_DAY = "matchday";
+        final String SEASON_LINK = getBaseContext().getString(R.string.season_url);
+        final String MATCH_LINK = getBaseContext().getString(R.string.api_url);
+        final String FIXTURES = getBaseContext().getString(R.string.fixtures_key);
+        final String LINKS = getBaseContext().getString(R.string.links_key);
+        final String SOCCER_SEASON = getBaseContext().getString(R.string.season_key);
+        final String SELF = getBaseContext().getString(R.string.self_key);
+        final String MATCH_DATE = getBaseContext().getString(R.string.date_key);
+        final String HOME_TEAM = getBaseContext().getString(R.string.home_team_key);
+        final String AWAY_TEAM = getBaseContext().getString(R.string.away_team_key);
+        final String RESULT = getBaseContext().getString(R.string.result_key);
+        final String HOME_GOALS = getBaseContext().getString(R.string.home_goals_key);
+        final String AWAY_GOALS = getBaseContext().getString(R.string.away_goals_key);
+        final String MATCH_DAY = getBaseContext().getString(R.string.matchday_key);
 
         //Match data
         String League = null;
@@ -177,7 +177,7 @@ public class myFetchService extends IntentService {
 
                 JSONObject match_data = matches.getJSONObject(i);
                 League = match_data.getJSONObject(LINKS).getJSONObject(SOCCER_SEASON).
-                        getString("href");
+                        getString(getBaseContext().getString(R.string.href_key));
                 League = League.replace(SEASON_LINK,"");
                 //This if statement controls which leagues we're interested in the data from.
                 //add leagues here in order to have them be added to the DB.
@@ -189,7 +189,7 @@ public class myFetchService extends IntentService {
                         League.equals(BUNDESLIGA2)         ||
                         League.equals(PRIMERA_DIVISION)     ) {
                     match_id = match_data.getJSONObject(LINKS).getJSONObject(SELF).
-                            getString("href");
+                            getString(getBaseContext().getString(R.string.href_key));
                     match_id = match_id.replace(MATCH_LINK, "");
                     if(!isReal){
                         //This if statement changes the match ID of the dummy data so that it all goes into the database
@@ -200,7 +200,7 @@ public class myFetchService extends IntentService {
                     mTime = mDate.substring(mDate.indexOf("T") + 1, mDate.indexOf("Z"));
                     mDate = mDate.substring(0,mDate.indexOf("T"));
                     SimpleDateFormat match_date = new SimpleDateFormat("yyyy-MM-ddHH:mm:ss");
-                    match_date.setTimeZone(TimeZone.getTimeZone("UTC"));
+                    match_date.setTimeZone(TimeZone.getTimeZone(getBaseContext().getString(R.string.timezone_key)));
                     try {
                         Date parseddate = match_date.parse(mDate+mTime);
                         SimpleDateFormat new_date = new SimpleDateFormat("yyyy-MM-dd:HH:mm");
