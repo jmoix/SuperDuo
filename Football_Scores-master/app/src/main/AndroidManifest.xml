@@ -48,6 +48,8 @@
             <meta-data android:name="android.appwidget.provider"
                 android:resource="@xml/widget_footbal" />
         </receiver>
+        <service android:name=".service.FootballWidgetIntentService" />
+
     </application>
 
 </manifest>

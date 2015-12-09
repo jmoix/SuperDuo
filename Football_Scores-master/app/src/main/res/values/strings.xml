@@ -4,7 +4,7 @@
 
     <string name="app_name" translatable="false">Football Scores</string>
 
-    <string name="api_url" translatable="false">http://api.football-data.org/alpha/fixtures</string>
+    <string name="api_url" translatable="false">http://api.football-data.org/alpha/fixtures/</string>
     <string name="season_url" translatable="false">http://api.football-data.org/alpha/soccerseasons/</string>
     <string name="rm_get" translatable="false">GET</string>
     <string name="ct_text" translatable="false">text/plain</string>
@@ -61,6 +61,7 @@
     <string name="cd_homescore"> with a score of <xliff:g id="homescore">%1$s</xliff:g> to </string>
     <string name="cd_expand"> Double tap to expand</string>
     <string name="cd_score">%1$s! league game at %1$s!. %1$s!. %1$s! at home, versus %1$s!, with a score of %1$s! to %1$s!. Double tap to expand.</string>
+    <string name="cd_widget">Football Scores Widget</string>
 
     <string name="today_label">Today</string>
     <string name="tomorrow_label">Tomorrow</string>
@@ -85,7 +86,8 @@
     <string name="no_data_today">There were no games played today.</string>
     <string name="no_data_tomorrow">There are no games being played tomorrow.</string>
     <string name="no_data_yesterday">There were no games played yesterday.</string>
-    <string name="title_widget_football">Football Scores</string>
+    <string name="title_widget_football">Football Games</string>
+    <string name="msg_widget_games"><xliff:g id="games">%1$s</xliff:g> games on this day.</string>
     <string name="about_text">
         This Application gets Football Matches Score for the Premier League, Seria A, Bundesliga, Primera Division,
         Ligue, Segunda Division, Primeira Liga, Eredivisie, and the Uefa Champions League.
