@@ -46,9 +46,24 @@
                 <action android:name="com.example.android.sunshine.app.ACTION_DATA_UPDATED" />
             </intent-filter>
             <meta-data android:name="android.appwidget.provider"
-                android:resource="@xml/widget_footbal" />
+                android:resource="@xml/widget_football" />
         </receiver>
         <service android:name=".service.FootballWidgetIntentService" />
+
+        <receiver
+            android:name=".widget.FootballListWidgetProvider"
+            android:label="@string/title_widget_football_list">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="com.example.android.sunshine.app.ACTION_DATA_UPDATED" />
+            </intent-filter>
+            <meta-data android:name="android.appwidget.provider"
+                android:resource="@xml/widget_football_list" />
+        </receiver>
+        <service
+            android:name=".service.FootballWidgetRemoteViewsService"
+            android:exported="false"
+            android:permission="android.permission.BIND_REMOTEVIEWS" />
 
     </application>
 
