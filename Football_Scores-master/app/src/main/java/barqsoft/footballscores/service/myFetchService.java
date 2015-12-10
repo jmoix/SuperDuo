@@ -47,6 +47,7 @@ public class myFetchService extends IntentService {
 
     private void getData (String timeFrame) {
 
+        //check for network connectivity
         if(Utilies.checkNetworkAvailable(getApplicationContext())) {
             //Creating fetch URL
             final String BASE_URL = getBaseContext().getString(R.string.api_url); //Base URL

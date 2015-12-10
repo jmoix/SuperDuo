@@ -31,6 +31,7 @@ public class MainScreenFragment extends Fragment implements LoaderManager.Loader
 
     public static final String DAY = "day";
 
+    //added call to check for internet connectivity in fetch class
     private void update_scores() {
         Intent service_start = new Intent(getActivity(), myFetchService.class);
         getActivity().startService(service_start);
