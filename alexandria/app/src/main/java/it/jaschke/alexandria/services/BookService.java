@@ -21,6 +21,7 @@ import java.net.URL;
 
 import it.jaschke.alexandria.MainActivity;
 import it.jaschke.alexandria.R;
+import it.jaschke.alexandria.Utilities;
 import it.jaschke.alexandria.data.AlexandriaContract;
 
 
@@ -44,14 +45,16 @@ public class BookService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        if (intent != null) {
-            final String action = intent.getAction();
-            if (FETCH_BOOK.equals(action)) {
-                final String ean = intent.getStringExtra(EAN);
-                fetchBook(ean);
-            } else if (DELETE_BOOK.equals(action)) {
-                final String ean = intent.getStringExtra(EAN);
-                deleteBook(ean);
+        if(Utilities.checkNetworkAvailable(getBaseContext())) {
+            if (intent != null) {
+                final String action = intent.getAction();
+                if (FETCH_BOOK.equals(action)) {
+                    final String ean = intent.getStringExtra(EAN);
+                    fetchBook(ean);
+                } else if (DELETE_BOOK.equals(action)) {
+                    final String ean = intent.getStringExtra(EAN);
+                    deleteBook(ean);
+                }
             }
         }
     }
@@ -96,10 +99,10 @@ public class BookService extends IntentService {
         String bookJsonString = null;
 
         try {
-            final String FORECAST_BASE_URL = "https://www.googleapis.com/books/v1/volumes?";
-            final String QUERY_PARAM = "q";
+            final String FORECAST_BASE_URL = getBaseContext().getString(R.string.base_url);
+            final String QUERY_PARAM = getBaseContext().getString(R.string.query_param);
 
-            final String ISBN_PARAM = "isbn:" + ean;
+            final String ISBN_PARAM = getBaseContext().getString(R.string.isbn_param, ean);
 
             Uri builtUri = Uri.parse(FORECAST_BASE_URL).buildUpon()
                     .appendQueryParameter(QUERY_PARAM, ISBN_PARAM)
@@ -108,7 +111,7 @@ public class BookService extends IntentService {
             URL url = new URL(builtUri.toString());
 
             urlConnection = (HttpURLConnection) url.openConnection();
-            urlConnection.setRequestMethod("GET");
+            urlConnection.setRequestMethod(getBaseContext().getString(R.string.rq_get));
             urlConnection.connect();
 
             InputStream inputStream = urlConnection.getInputStream();
@@ -144,17 +147,17 @@ public class BookService extends IntentService {
 
         }
 
-        final String ITEMS = "items";
+        final String ITEMS = getBaseContext().getString(R.string.json_items);
 
-        final String VOLUME_INFO = "volumeInfo";
+        final String VOLUME_INFO = getBaseContext().getString(R.string.json_volume_info);
 
-        final String TITLE = "title";
-        final String SUBTITLE = "subtitle";
-        final String AUTHORS = "authors";
-        final String DESC = "description";
-        final String CATEGORIES = "categories";
-        final String IMG_URL_PATH = "imageLinks";
-        final String IMG_URL = "thumbnail";
+        final String TITLE = getBaseContext().getString(R.string.json_title);
+        final String SUBTITLE = getBaseContext().getString(R.string.json_subtitle);
+        final String AUTHORS = getBaseContext().getString(R.string.json_authors);
+        final String DESC = getBaseContext().getString(R.string.json_description);
+        final String CATEGORIES = getBaseContext().getString(R.string.json_categories);
+        final String IMG_URL_PATH = getBaseContext().getString(R.string.json_img_url_path);
+        final String IMG_URL = getBaseContext().getString(R.string.json_img_url);
 
         try {
             JSONObject bookJson = new JSONObject(bookJsonString);

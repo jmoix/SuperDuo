@@ -68,8 +68,9 @@ public class AddBook extends Fragment implements LoaderManager.LoaderCallbacks<C
             public void afterTextChanged(Editable s) {
                 String ean =s.toString();
                 //catch isbn10 numbers
-                if(ean.length()==10 && !ean.startsWith("978")){
-                    ean="978"+ean;
+                String eanPrefix = getString(R.string.ean_prefix);
+                if(ean.length()==10 && !ean.startsWith(eanPrefix)){
+                    ean=eanPrefix+ean;
                 }
                 if(ean.length()<13){
                     clearFields();
@@ -141,8 +142,9 @@ public class AddBook extends Fragment implements LoaderManager.LoaderCallbacks<C
             return null;
         }
         String eanStr= ean.getText().toString();
-        if(eanStr.length()==10 && !eanStr.startsWith("978")){
-            eanStr="978"+eanStr;
+        String eanPrefix = getString(R.string.ean_prefix);
+        if(eanStr.length()==10 && !eanStr.startsWith(eanPrefix)){
+            eanStr=eanPrefix+eanStr;
         }
         return new CursorLoader(
                 getActivity(),
@@ -172,7 +174,7 @@ public class AddBook extends Fragment implements LoaderManager.LoaderCallbacks<C
         ((TextView) rootView.findViewById(R.id.authors)).setText(authors.replace(",","\n"));
         String imgUrl = data.getString(data.getColumnIndex(AlexandriaContract.BookEntry.IMAGE_URL));
         if(Patterns.WEB_URL.matcher(imgUrl).matches()){
-            new DownloadImage((ImageView) rootView.findViewById(R.id.bookCover)).execute(imgUrl);
+            new DownloadImage((ImageView) rootView.findViewById(R.id.bookCover), getContext()).execute(imgUrl);
             rootView.findViewById(R.id.bookCover).setVisibility(View.VISIBLE);
         }
 

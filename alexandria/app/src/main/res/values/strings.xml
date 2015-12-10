@@ -1,6 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="app_name">Alexandria</string>
+<resources
+    xmlns:xliff="http://schemas.android.com/apk/res-auto">
+    <string name="app_name" translatable="false">Alexandria</string>
+
+    <string name="base_url" translatable="false">https://www.googleapis.com/books/v1/volumes?</string>
+    <string name="query_param" translatable="false">q</string>
+    <string name="isbn_param" translatable="false">isbn:<xliff:g id="msg">%1$s</xliff:g></string>
+
+    <string name="rq_get" translatable="false">GET</string>
+
+    <string name="ct_text" translatable="false">text/plain</string>
+
+    <string name="json_items" translatable="false">items</string>
+    <string name="json_volume_info" translatable="false">volumeInfo</string>
+    <string name="json_title" translatable="false">title</string>
+    <string name="json_subtitle" translatable="false">subtitle</string>
+    <string name="json_authors" translatable="false">authors</string>
+    <string name="json_description" translatable="false">description</string>
+    <string name="json_categories" translatable="false">categories</string>
+    <string name="json_img_url_path" translatable="false">imageLinks</string>
+    <string name="json_img_url" translatable="false">thumbnail</string>
+
+    <string name="ean_prefix" translatable="false">978</string>
 
     <!-- Menu Items -->
     <string name="books">List of Books</string>
