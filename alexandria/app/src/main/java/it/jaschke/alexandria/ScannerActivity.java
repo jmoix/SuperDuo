@@ -17,8 +17,10 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.GestureDetector;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
@@ -83,12 +85,17 @@ public class ScannerActivity extends AppCompatActivity {
         Snackbar.make(mGraphicOverlay, getString(R.string.snackbar_camera),
                 Snackbar.LENGTH_LONG)
                 .show();
+
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        Log.d("ScannerActivity", "OptionsItemSelected");
         if(item.getItemId() == android.R.id.home){
-            setResult(CommonStatusCodes.CANCELED, new Intent());
+            Log.d("ScannerActivity", "SettingResult");
+            Intent data = new Intent();
+            data.putExtra(BARCODEOBJECT, "");
+            setResult(CommonStatusCodes.SUCCESS, data);
             finish();
         }
         return super.onOptionsItemSelected(item);
