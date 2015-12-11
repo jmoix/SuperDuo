@@ -6,6 +6,8 @@ import android.net.NetworkInfo;
 import android.os.Handler;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 /**
  * Created by jasonmoix on 11/30/15.
  */
@@ -29,4 +31,5 @@ public class Utilities {
         return  activeNetwork != null && activeNetwork.isConnectedOrConnecting();
 
     }
+
 }
