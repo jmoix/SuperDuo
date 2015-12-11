@@ -80,7 +80,7 @@ public class ScannerActivity extends AppCompatActivity {
         gestureDetector = new GestureDetector(this, new CaptureGestureListener());
         scaleGestureDetector = new ScaleGestureDetector(this, new ScaleListener());
 
-        Snackbar.make(mGraphicOverlay, "Tap to capture. Pinch/Stretch to zoom",
+        Snackbar.make(mGraphicOverlay, getString(R.string.snackbar_camera),
                 Snackbar.LENGTH_LONG)
                 .show();
     }
@@ -88,6 +88,7 @@ public class ScannerActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if(item.getItemId() == android.R.id.home){
+            setResult(CommonStatusCodes.CANCELED, new Intent());
             finish();
         }
         return super.onOptionsItemSelected(item);

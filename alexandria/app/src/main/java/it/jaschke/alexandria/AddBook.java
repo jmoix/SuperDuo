@@ -40,6 +40,7 @@ public class AddBook extends Fragment implements LoaderManager.LoaderCallbacks<C
     private final String EAN_CONTENT="eanContent";
     private static final String SCAN_FORMAT = "scanFormat";
     private static final String SCAN_CONTENTS = "scanContents";
+    public static final int RC_BARCODE_CAPTURE = 9001;
 
     private String mScanFormat = "Format:";
     private String mScanContents = "Contents:";
@@ -59,14 +60,14 @@ public class AddBook extends Fragment implements LoaderManager.LoaderCallbacks<C
         if (v.getId() == R.id.scan_button) {
             // launch barcode activity.
             Intent intent = new Intent(getContext(), ScannerActivity.class);
-            startActivityForResult(intent, MainActivity.RC_BARCODE_CAPTURE);
+            startActivityForResult(intent, RC_BARCODE_CAPTURE);
         }
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         Log.d("ScannerResult", "RESULT RECEIVED");
-        if (requestCode == MainActivity.RC_BARCODE_CAPTURE) {
+        if (requestCode == RC_BARCODE_CAPTURE) {
             if (resultCode == CommonStatusCodes.SUCCESS) {
                 if (data != null) {
                     Barcode barcode = data.getParcelableExtra(ScannerActivity.BARCODEOBJECT);
@@ -77,7 +78,9 @@ public class AddBook extends Fragment implements LoaderManager.LoaderCallbacks<C
                     Toast.makeText(getContext(), "No barcode detected", Toast.LENGTH_SHORT).show();
                     Log.d(TAG, "No barcode captured, intent data is null");
                 }
-            } else {
+            } else if(resultCode == CommonStatusCodes.CANCELED){
+                Toast.makeText(getContext(), getString(R.string.scan_canceled), Toast.LENGTH_SHORT).show();
+            }else {
                 Toast.makeText(getContext(),String.format(getString(R.string.barcode_error),
                         CommonStatusCodes.getStatusCodeString(resultCode)),Toast.LENGTH_SHORT).show();
             }
@@ -106,13 +109,13 @@ public class AddBook extends Fragment implements LoaderManager.LoaderCallbacks<C
 
             @Override
             public void afterTextChanged(Editable s) {
-                String ean =s.toString();
+                String ean = s.toString();
                 //catch isbn10 numbers
                 String eanPrefix = getString(R.string.ean_prefix);
-                if(ean.length()==10 && !ean.startsWith(eanPrefix)){
-                    ean=eanPrefix+ean;
+                if (ean.length() == 10 && !ean.startsWith(eanPrefix)) {
+                    ean = eanPrefix + ean;
                 }
-                if(ean.length()<13){
+                if (ean.length() < 13) {
                     clearFields();
                     return;
                 }

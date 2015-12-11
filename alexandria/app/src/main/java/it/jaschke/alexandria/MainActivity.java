@@ -42,7 +42,6 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
 
     public static final String MESSAGE_EVENT = "MESSAGE_EVENT";
     public static final String MESSAGE_KEY = "MESSAGE_EXTRA";
-    public static final int RC_BARCODE_CAPTURE = 9001;
     public static final String TAG = "Alexandria";
 
     @Override
