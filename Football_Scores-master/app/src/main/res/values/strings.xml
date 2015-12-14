@@ -62,6 +62,7 @@
     <string name="cd_expand"> Double tap to expand</string>
     <string name="cd_score">%1$s! league game at %1$s!. %1$s!. %1$s! at home, versus %1$s!, with a score of %1$s! to %1$s!. Double tap to expand.</string>
     <string name="cd_widget">Football Scores Widget</string>
+    <string name="cd_share">Tap to share with your friends</string>
 
     <string name="today_label">Today</string>
     <string name="tomorrow_label">Tomorrow</string>
